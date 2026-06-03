@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — P.S. Noted</title>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --purple: #6B5CE7; --teal: #2A9D8F; --bg: #F5F0E8; --text: #1A1A2E; --muted: rgba(26,26,46,0.55); --faint: rgba(26,26,46,0.1); }
+    body { font-family: 'General Sans', system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+    a { color: var(--purple); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    nav { max-width: 720px; margin: 0 auto; padding: 24px 20px; display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: baseline; gap: 4px; text-decoration: none; }
+    .logo-ps { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; font-style: italic; color: var(--purple); }
+    .logo-noted { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; color: var(--text); letter-spacing: -0.02em; }
+    .back { font-size: 13px; color: var(--muted); }
+    .back:hover { color: var(--purple); text-decoration: none; }
+    main { max-width: 720px; margin: 0 auto; padding: 20px 20px 80px; }
+    h1 { font-family: 'Fraunces', serif; font-size: 36px; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 8px; color: var(--text); }
+    .updated { font-size: 13px; color: rgba(26,26,46,0.35); margin-bottom: 32px; }
+    h2 { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--text); margin: 36px 0 12px; }
+    p { font-size: 15px; color: var(--muted); margin-bottom: 14px; line-height: 1.75; }
+    ul { list-style: none; margin-bottom: 14px; }
+    ul li { font-size: 15px; color: var(--muted); padding: 4px 0 4px 20px; position: relative; line-height: 1.65; }
+    ul li::before { content: '✓'; position: absolute; left: 0; color: var(--teal); font-weight: 700; }
+    ul li.bullet::before { content: '•'; color: var(--muted); }
+
+    /* Prominent disclosure box */
+    .disclosure-box {
+      background: rgba(107,92,231,0.07);
+      border: 2px solid rgba(107,92,231,0.25);
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin: 32px 0;
+    }
+    .disclosure-box h2 { margin-top: 0; color: var(--purple); }
+    .disclosure-box p { color: rgba(26,26,46,0.7); }
+    .disclosure-box ul li::before { content: '✓'; color: var(--purple); }
+
+    .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; }
+    .data-table th { background: rgba(26,26,46,0.06); padding: 10px 14px; text-align: left; font-weight: 600; color: var(--text); border-bottom: 2px solid var(--faint); }
+    .data-table td { padding: 10px 14px; border-bottom: 1px solid var(--faint); color: var(--muted); vertical-align: top; }
+    .data-table tr:last-child td { border-bottom: none; }
+
+    footer { max-width: 720px; margin: 0 auto; padding: 24px 20px 40px; border-top: 1px solid var(--faint); display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; font-size: 13px; color: rgba(26,26,46,0.25); }
+    footer a { color: rgba(26,26,46,0.3); }
+    footer a:hover { color: var(--purple); text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a class="logo" href="index.html"><span class="logo-ps">P.S.</span><span class="logo-noted">Noted</span></a>
+    <a class="back" href="support.html">← Help Center</a>
+  </nav>
+
+  <main>
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: May 2026</p>
+
+    <!-- PROMINENT DISCLOSURE BOX -->
+    <div class="disclosure-box">
+      <h2>📋 Data Collection — Prominent Disclosure</h2>
+      <p><strong>P.S. Noted collects and stores the following data, solely to provide its core functionality:</strong></p>
+      <ul>
+        <li>Text you manually highlight or save from AI conversation pages</li>
+        <li>Prompts you manually save within the extension</li>
+        <li>Profile names, colors, and emoji you create</li>
+        <li>Box names and organization you create</li>
+        <li>Keyword triggers you define</li>
+        <li>Your sidebar position preference (left or right)</li>
+        <li>Your Pro license key (if you upgrade)</li>
+        <li>A device identifier (randomly generated, used only for Pro device limit enforcement)</li>
+      </ul>
+      <p style="margin-top:12px"><strong>All data is stored locally on your device using Chrome's built-in storage API (chrome.storage.sync).</strong> No data is sent to external servers except: (1) your license key is verified against our backend when you activate Pro, and (2) your email is used to deliver your license key after purchase.</p>
+      <p><strong>You consent to this data storage by using the extension.</strong> You can delete all stored data at any time from Settings ⚙ → Clear all data.</p>
+    </div>
+
+    <h2>1. Overview</h2>
+    <p>P.S. Noted ("the Extension") is a Chrome browser extension that allows users to save, highlight, and organize content from AI conversation platforms. This Privacy Policy explains what data is collected, how it is used, and your rights regarding your data.</p>
+    <p>By installing and using P.S. Noted, you agree to the data practices described in this policy.</p>
+
+    <h2>2. What Data We Collect</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Data Type</th>
+          <th>Purpose</th>
+          <th>Where Stored</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Saved highlights &amp; prompts</td>
+          <td>Core functionality — your saved content</td>
+          <td>Locally on your device (chrome.storage.sync)</td>
+        </tr>
+        <tr>
+          <td>Profile &amp; box names/settings</td>
+          <td>Organization of your saved content</td>
+          <td>Locally on your device</td>
+        </tr>
+        <tr>
+          <td>Keyword triggers</td>
+          <td>Auto-expansion of saved prompts</td>
+          <td>Locally on your device</td>
+        </tr>
+        <tr>
+          <td>Extension preferences</td>
+          <td>Sidebar position, enabled sites</td>
+          <td>Locally on your device</td>
+        </tr>
+        <tr>
+          <td>Pro license key</td>
+          <td>Verifying Pro plan status</td>
+          <td>Locally + verified against our server</td>
+        </tr>
+        <tr>
+          <td>Device identifier</td>
+          <td>Enforcing 3-device limit for Pro plan</td>
+          <td>Locally + our server (Cloudflare KV)</td>
+        </tr>
+        <tr>
+          <td>Purchase email address</td>
+          <td>Delivering license key after payment</td>
+          <td>Our server (Cloudflare KV) — not shared</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>3. What We Do NOT Collect</h2>
+    <ul>
+      <li>We do not collect your browsing history</li>
+      <li>We do not read or transmit full page content from AI platforms</li>
+      <li>We do not collect personal information beyond what you explicitly save</li>
+      <li>We do not use analytics or tracking tools</li>
+      <li>We do not sell, rent, or share your data with third parties</li>
+      <li>We do not collect payment information (handled entirely by Stripe)</li>
+    </ul>
+
+    <h2>4. How Data Is Used</h2>
+    <p>All data collected is used exclusively to provide the functionality of P.S. Noted:</p>
+    <ul>
+      <li>Saved content is displayed in your shelf and organized by profile and box</li>
+      <li>License keys are verified to determine your plan (Free or Pro)</li>
+      <li>Device identifiers are used solely to enforce the 3-device limit on Pro plans</li>
+      <li>Purchase email addresses are used only to deliver your license key</li>
+    </ul>
+
+    <h2>5. Data Storage & Sync</h2>
+    <p>Your saved highlights, prompts, profiles, boxes, and settings are stored using <strong>chrome.storage.sync</strong>, which syncs privately across your authorized Chrome devices. This sync is handled by Google's Chrome infrastructure — P.S. Noted does not operate its own sync servers for this data.</p>
+    <p>License verification data (license keys, device IDs, and purchase emails) is stored on our backend hosted on Cloudflare Workers KV, a secure key-value store.</p>
+
+    <h2>6. User Consent</h2>
+    <p>By installing P.S. Noted and using its features, you consent to the data practices described in this policy. Specifically:</p>
+    <ul>
+      <li>Saving a highlight or prompt constitutes consent to store that content locally</li>
+      <li>Activating a Pro license key constitutes consent to store your device ID on our server</li>
+      <li>Purchasing Pro constitutes consent for us to store your email to deliver your license key</li>
+    </ul>
+    <p>You may withdraw consent at any time by uninstalling the extension or clearing all data from Settings ⚙ → Clear all data.</p>
+
+    <h2>7. Data Deletion</h2>
+    <p>You can delete all locally stored data at any time:</p>
+    <ul>
+      <li>Open P.S. Noted → Settings ⚙ → scroll to Danger Zone → click <strong>Clear all data</strong></li>
+      <li>Uninstalling the extension also removes all locally stored data</li>
+    </ul>
+    <p>To request deletion of server-side data (license key, device ID, or purchase email), email <a href="mailto:hello@psnoted.com">hello@psnoted.com</a> and we will delete your records within 5 business days.</p>
+
+    <h2>8. Third-Party Services</h2>
+    <p>P.S. Noted uses the following third-party services:</p>
+    <ul>
+      <li class="bullet"><strong>Stripe</strong> — payment processing. We never see your payment details. <a href="https://stripe.com/privacy" target="_blank">Stripe Privacy Policy</a></li>
+      <li class="bullet"><strong>Cloudflare Workers</strong> — backend infrastructure for license verification. <a href="https://www.cloudflare.com/privacypolicy/" target="_blank">Cloudflare Privacy Policy</a></li>
+      <li class="bullet"><strong>Resend</strong> — transactional email delivery for license keys. <a href="https://resend.com/legal/privacy-policy" target="_blank">Resend Privacy Policy</a></li>
+    </ul>
+
+    <h2>9. Children's Privacy</h2>
+    <p>P.S. Noted is not directed at children under 13. We do not knowingly collect data from children under 13.</p>
+
+    <h2>10. Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Changes will be posted at this URL with an updated date. Continued use of the extension after changes constitutes acceptance of the updated policy.</p>
+
+    <h2>11. Contact</h2>
+    <p>Questions about this privacy policy? Email <a href="mailto:hello@psnoted.com">hello@psnoted.com</a>. We respond within 48 hours.</p>
+  </main>
+
+  <footer>
+    <span>© 2026 P.S. Noted</span>
+    <div style="display:flex;gap:20px"><a href="support.html">Support</a><a href="faq.html">FAQ</a><a href="refund.html">Refunds</a></div>
+    <span>Save the good stuff.</span>
+  </footer>
+</body>
+</html>
