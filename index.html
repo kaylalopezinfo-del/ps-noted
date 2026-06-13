@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>P.S. Noted — AI Prompt Saver & Highlighter Chrome Extension</title>
+  <meta name="description" content="Save AI responses, organize prompts, and highlight the best moments from Claude, ChatGPT, and Gemini. The best Chrome extension for AI prompt management. Free + $15 Pro." />
+  <meta name="keywords" content="AI prompt saver, Chrome extension for AI prompts, save AI responses, ChatGPT prompt organizer, Claude prompt manager, Gemini highlighter, AI conversation organizer, prompt shelf, highlight AI responses, AI prompt manager Chrome" />
+  <meta name="author" content="P.S. Noted" />
+  <meta name="robots" content="index, follow" />
+  <link rel="canonical" href="https://psnoted.com/" />
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://psnoted.com/" />
+  <meta property="og:title" content="P.S. Noted — AI Prompt Saver & Highlighter Chrome Extension" />
+  <meta property="og:description" content="Save AI responses, organize prompts, and highlight the best moments from Claude, ChatGPT, and Gemini. Free Chrome extension + $15 Pro one-time." />
+  <meta property="og:image" content="https://psnoted.com/icon.png" />
+  <meta property="og:site_name" content="P.S. Noted" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://psnoted.com/" />
+  <meta name="twitter:title" content="P.S. Noted — AI Prompt Saver Chrome Extension" />
+  <meta name="twitter:description" content="Save AI responses, organize prompts, highlight the best moments from Claude, ChatGPT, and Gemini. Free + $15 Pro." />
+  <meta name="twitter:image" content="https://psnoted.com/icon.png" />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "P.S. Noted — Prompt Shelf",
+    "applicationCategory": "BrowserApplication",
+    "applicationSubCategory": "Productivity",
+    "operatingSystem": "Chrome, Edge",
+    "description": "A Chrome extension to save, highlight, and organize AI responses and prompts from Claude, ChatGPT, Gemini, and any AI tool.",
+    "url": "https://psnoted.com",
+    "offers": [
+      {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD",
+        "name": "Free Plan"
+      },
+      {
+        "@type": "Offer",
+        "price": "15",
+        "priceCurrency": "USD",
+        "name": "Pro Plan",
+        "description": "One-time payment, lifetime access"
+      }
+    ],
+    "featureList": [
+      "Highlight AI responses",
+      "Save prompts",
+      "Color-coded profiles",
+      "Keyword triggers",
+      "Works on Claude, ChatGPT, Gemini",
+      "No account required",
+      "Chrome sync"
+    ],
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5",
+      "ratingCount": "1"
+    }
+  }
+  </script>
+  <link rel="icon" type="image/png" href="icon.png" />
+  <link rel="shortcut icon" type="image/png" href="icon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=General+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --cream: #F5F0E8;
+      --cream2: #EDE8DC;
+      --cream3: #E3DDD0;
+      --navy: #1A1A2E;
+      --navy2: #16213E;
+      --purple: #6B5CE7;
+      --purple-light: #8B7CF5;
+      --teal: #2A9D8F;
+      --coral: #E76F51;
+      --amber: #E9C46A;
+      --text: #1A1A2E;
+      --muted: rgba(26,26,46,0.55);
+      --faint: rgba(26,26,46,0.1);
+    }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'General Sans', system-ui, sans-serif; background: var(--cream); color: var(--text); line-height: 1.6; overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 0 6vw; transition: all 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    nav.scrolled { background: rgba(245,240,232,0.95); backdrop-filter: blur(20px); border-color: var(--faint); }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+    .logo { display: flex; align-items: baseline; gap: 2px; }
+    .logo-ps { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 700; color: var(--purple); letter-spacing: 0.06em; font-style: italic; }
+    .logo-noted { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; color: var(--navy); letter-spacing: -0.02em; }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--muted); transition: color 0.15s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--navy); color: var(--cream) !important; font-size: 13px; font-weight: 600; padding: 9px 20px; border-radius: 100px; transition: background 0.15s !important; }
+    .nav-cta:hover { background: var(--navy2) !important; }
+
+    /* HERO */
+    .hero { min-height: 100vh; display: flex; align-items: center; padding: 120px 6vw 80px; position: relative; overflow: hidden; background: var(--cream); }
+    .hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 70% 50%, rgba(107,92,231,0.06) 0%, transparent 65%); pointer-events: none; }
+    .hero-inner { max-width: 1100px; margin: 0 auto; width: 100%; display: flex; align-items: center; gap: 80px; }
+    .hero-left { flex: 1; min-width: 0; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(107,92,231,0.08); border: 1px solid rgba(107,92,231,0.18); color: var(--purple); font-size: 12px; font-weight: 600; padding: 5px 14px; border-radius: 100px; margin-bottom: 28px; letter-spacing: 0.06em; font-family: 'General Sans', sans-serif; }
+    h1 { font-family: 'Fraunces', serif; font-size: clamp(42px, 5.5vw, 68px); font-weight: 900; letter-spacing: -0.03em; line-height: 1.0; margin-bottom: 8px; color: var(--navy); }
+    h1 em { font-style: italic; color: var(--purple); font-weight: 700; }
+    h1 .sub { display: block; font-size: clamp(32px, 4vw, 52px); font-weight: 400; font-style: italic; color: var(--muted); }
+    .hero-sub { font-size: 18px; color: var(--muted); line-height: 1.65; margin: 24px 0 36px; max-width: 460px; font-weight: 400; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 36px; }
+    .btn-primary { background: var(--navy); color: var(--cream); font-size: 15px; font-weight: 600; padding: 14px 30px; border-radius: 100px; transition: all 0.2s; }
+    .btn-primary:hover { background: var(--purple); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(107,92,231,0.25); }
+    .btn-secondary { background: transparent; border: 1.5px solid var(--faint); color: var(--muted); font-size: 15px; font-weight: 500; padding: 14px 26px; border-radius: 100px; transition: all 0.15s; }
+    .btn-secondary:hover { border-color: var(--navy); color: var(--navy); }
+    .platforms { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .platforms-label { font-size: 12px; color: rgba(26,26,46,0.35); font-weight: 500; }
+    .platform-tag { background: rgba(26,26,46,0.06); border: 1px solid rgba(26,26,46,0.1); color: var(--muted); font-size: 12px; font-weight: 500; padding: 4px 12px; border-radius: 100px; transition: all 0.15s; }
+    .platform-tag:hover { background: rgba(107,92,231,0.08); border-color: rgba(107,92,231,0.2); color: var(--purple); }
+
+    /* MOCKUP */
+    .hero-right { flex-shrink: 0; animation: float 6s ease-in-out infinite; position: relative; }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+    .mockup {
+      width: 320px; background: #16213E; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: 0 32px 80px rgba(26,26,46,0.25), 0 0 0 1px rgba(107,92,231,0.1);
+      overflow: hidden; font-size: 12px;
+    }
+    .mockup-header { padding: 14px 16px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
+    .mockup-logo .ps { font-family: 'Fraunces', serif; font-size: 10px; font-weight: 700; color: var(--purple-light); letter-spacing: 0.08em; font-style: italic; }
+    .mockup-logo .noted { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 900; color: #F5F0E8; letter-spacing: -0.02em; margin-left: 2px; }
+    .side-pill { display: flex; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2px; gap: 2px; }
+    .side-btn { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 9px; font-weight: 600; padding: 2px 7px; border-radius: 20px; cursor: pointer; font-family: inherit; }
+    .side-btn.active { background: var(--purple); color: #fff; }
+    .mockup-tabs { display: flex; padding: 6px 12px 0; gap: 2px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .mockup-tab { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 500; padding: 4px 8px; border-radius: 6px; cursor: pointer; font-family: inherit; }
+    .mockup-tab.active { color: #F5F0E8; background: rgba(107,92,231,0.2); }
+    .mockup-tab.gear { margin-left: auto; }
+    .mockup-search { margin: 8px 12px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); border-radius: 7px; padding: 6px 10px; color: rgba(255,255,255,0.2); font-size: 11px; }
+    .mockup-filters { display: flex; gap: 5px; padding: 6px 12px; flex-wrap: wrap; }
+    .filter-pill { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: rgba(255,255,255,0.4); font-size: 10px; padding: 2px 8px; border-radius: 20px; }
+    .filter-pill.active { background: var(--purple); border-color: transparent; color: #fff; }
+    .mockup-items { display: flex; flex-direction: column; gap: 7px; padding: 0 12px 12px; }
+    .mock-item { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.07); border-radius: 9px; overflow: hidden; display: flex; }
+    .item-bar { width: 3px; flex-shrink: 0; }
+    .item-body { padding: 8px 10px; flex: 1; min-width: 0; }
+    .item-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .item-badge { font-size: 9px; font-weight: 700; padding: 1px 6px; border-radius: 20px; }
+    .badge-h { background: rgba(107,92,231,0.2); color: #A99BF8; }
+    .badge-p { background: rgba(42,157,143,0.2); color: #4BC8B8; }
+    .item-profile { font-size: 10px; font-weight: 500; }
+    .item-text { font-size: 11px; color: rgba(255,255,255,0.6); line-height: 1.45; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .item-actions { display: flex; gap: 4px; }
+    .item-btn { background: none; border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.3); font-size: 9px; padding: 2px 5px; border-radius: 4px; cursor: pointer; font-family: inherit; }
+    .item-btn.insert { background: rgba(42,157,143,0.12); border-color: rgba(42,157,143,0.3); color: #4BC8B8; }
+
+    /* SECTION BASE */
+    section { padding: 100px 6vw; }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label { font-family: 'Fraunces', serif; font-size: 13px; font-weight: 600; font-style: italic; color: var(--purple); margin-bottom: 12px; letter-spacing: 0.02em; }
+    .section-title { font-family: 'Fraunces', serif; font-size: clamp(32px, 4vw, 48px); font-weight: 900; letter-spacing: -0.025em; color: var(--navy); margin-bottom: 14px; line-height: 1.1; }
+    .section-sub { font-size: 17px; color: var(--muted); max-width: 480px; line-height: 1.65; }
+    .section-head { text-align: center; margin-bottom: 56px; }
+    .section-head .section-sub { margin: 0 auto; }
+
+    /* FEATURES */
+    .features { background: var(--cream2); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2px; border: 1.5px solid var(--faint); border-radius: 20px; overflow: hidden; }
+    .feature-card { background: var(--cream); padding: 32px; transition: background 0.2s; }
+    .feature-card:hover { background: var(--cream2); }
+    .feature-icon { font-size: 28px; margin-bottom: 16px; }
+    .feature-title { font-family: 'Fraunces', serif; font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 10px; letter-spacing: -0.01em; }
+    .feature-desc { font-size: 14px; color: var(--muted); line-height: 1.7; }
+    .feature-desc code { background: rgba(107,92,231,0.1); color: var(--purple); padding: 1px 6px; border-radius: 4px; font-size: 13px; }
+
+    /* COMPARE */
+    .compare { background: var(--navy); color: #F5F0E8; }
+    .compare .section-title { color: var(--cream); }
+    .compare .section-label { color: var(--purple-light); }
+    .compare-wrap { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+    .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .compare-table th { padding: 14px 16px; text-align: center; font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(245,240,232,0.3); border-bottom: 1px solid rgba(255,255,255,0.07); font-family: 'General Sans', sans-serif; }
+    .compare-table th:first-child { text-align: left; }
+    .compare-table th.ours { color: var(--purple-light); background: rgba(107,92,231,0.08); }
+    .compare-table td { padding: 11px 16px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(245,240,232,0.45); }
+    .compare-table td:first-child { text-align: left; color: rgba(245,240,232,0.75); font-weight: 500; }
+    .compare-table td.ours { background: rgba(107,92,231,0.05); }
+    .compare-table tr:last-child td { border-bottom: none; }
+    .yes { color: var(--teal); font-weight: 700; font-size: 16px; }
+    .no { color: rgba(255,255,255,0.12); font-size: 16px; }
+
+    /* TESTIMONIALS */
+    .testimonials { background: var(--cream3); }
+    .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .testi-card { background: var(--cream); border: 1.5px solid var(--faint); border-radius: 16px; padding: 28px; display: flex; flex-direction: column; gap: 16px; }
+    .testi-quote { font-family: 'Fraunces', serif; font-size: 48px; color: var(--purple); line-height: 1; font-weight: 900; opacity: 0.3; }
+    .testi-text { font-family: 'Fraunces', serif; font-size: 16px; color: var(--navy); line-height: 1.65; flex: 1; font-style: italic; font-weight: 400; }
+    .testi-name { font-size: 13px; font-weight: 600; color: var(--navy); }
+    .testi-role { font-size: 12px; color: var(--muted); }
+
+    /* PRICING */
+    .pricing { background: var(--cream); }
+    .pricing-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; max-width: 680px; margin: 0 auto; }
+    @media (max-width: 560px) { .pricing-grid { grid-template-columns: 1fr; } }
+    .price-card { background: var(--cream2); border: 1.5px solid var(--faint); border-radius: 20px; padding: 32px; }
+    .price-card.featured { background: var(--navy); border-color: transparent; color: var(--cream); position: relative; overflow: hidden; }
+    .popular-badge { position: absolute; top: 18px; right: 18px; background: var(--purple); color: #fff; font-size: 9px; font-weight: 700; padding: 3px 10px; border-radius: 100px; letter-spacing: 0.08em; font-family: 'General Sans', sans-serif; }
+    .price-tier { font-family: 'General Sans', sans-serif; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 14px; }
+    .price-card.featured .price-tier { color: rgba(245,240,232,0.4); }
+    .price-amount { font-family: 'Fraunces', serif; font-size: 52px; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 4px; color: var(--navy); line-height: 1; }
+    .price-card.featured .price-amount { color: var(--cream); }
+    .price-note { font-size: 12px; color: var(--muted); margin-bottom: 24px; }
+    .price-card.featured .price-note { color: rgba(245,240,232,0.4); }
+    .price-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+    .price-features li { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 9px; }
+    .price-card.featured .price-features li { color: rgba(245,240,232,0.6); }
+    .price-features li::before { content: '✓'; color: var(--teal); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+    .price-features li.dim { opacity: 0.4; }
+    .price-features li.dim::before { content: '—'; color: currentColor; }
+    .price-btn { display: block; text-align: center; padding: 12px; border-radius: 100px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--faint); color: var(--muted); transition: all 0.15s; }
+    .price-btn:hover { border-color: var(--navy); color: var(--navy); }
+    .price-btn.primary { background: var(--purple); border-color: transparent; color: #fff; box-shadow: 0 4px 20px rgba(107,92,231,0.3); }
+    .price-btn.primary:hover { background: #5849C8; transform: translateY(-1px); }
+
+    /* CTA BOTTOM */
+    .cta-bottom { background: var(--navy); color: var(--cream); text-align: center; padding: 120px 6vw; }
+    .cta-bottom h2 { font-family: 'Fraunces', serif; font-size: clamp(36px, 5vw, 58px); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 18px; line-height: 1.05; }
+    .cta-bottom h2 em { font-style: italic; color: var(--purple-light); }
+    .cta-bottom p { font-size: 17px; color: rgba(245,240,232,0.5); margin-bottom: 40px; max-width: 480px; margin-left: auto; margin-right: auto; }
+    .btn-light { background: var(--cream); color: var(--navy); font-size: 15px; font-weight: 600; padding: 15px 36px; border-radius: 100px; transition: all 0.2s; display: inline-block; }
+    .btn-light:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+    .fine { margin-top: 20px; font-size: 13px; color: rgba(245,240,232,0.25); }
+
+    /* FOOTER */
+    footer { background: var(--navy2); border-top: 1px solid rgba(255,255,255,0.06); padding: 36px 6vw; }
+    .footer-inner { max-width: 1100px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+    .footer-logo .logo-ps { color: var(--purple-light); }
+    .footer-logo .logo-noted { color: var(--cream); }
+    .footer-tagline { font-family: 'Fraunces', serif; font-size: 14px; font-style: italic; color: rgba(245,240,232,0.25); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: rgba(245,240,232,0.3); transition: color 0.15s; }
+    .footer-links a:hover { color: var(--purple-light); }
+    .footer-copy { font-size: 12px; color: rgba(245,240,232,0.15); }
+
+    @media (max-width: 900px) {
+      .hero-inner { flex-direction: column; text-align: center; }
+      .hero-sub { margin-left: auto; margin-right: auto; }
+      .hero-btns { justify-content: center; }
+      .platforms { justify-content: center; }
+      .hero-right { display: none; }
+      .nav-links a:not(.nav-cta) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <div class="nav-inner">
+      <div class="logo">
+        <span class="logo-ps">P.S.</span>
+        <span class="logo-noted">Noted</span>
+      </div>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#compare">Compare</a>
+        <a href="#pricing">Pricing</a>
+        <a href="https://chromewebstore.google.com/detail/ps-noted-%E2%80%94-prompt-shelf/cgmpnmcakdibdaliiflgjaghomfnhdgp" class="nav-cta">Add to Chrome</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-left">
+        <div class="hero-eyebrow">✦ Free + Pro · One-time $15</div>
+        <h1>
+          Save <em>the good stuff</em>
+          <span class="sub">from every AI chat.</span>
+        </h1>
+        <p class="hero-sub">Highlight responses, save prompts, organize into profiles and boxes — across Claude, ChatGPT, Gemini, and any AI tool.</p>
+        <div class="hero-btns">
+          <a href="https://chromewebstore.google.com/detail/ps-noted-%E2%80%94-prompt-shelf/cgmpnmcakdibdaliiflgjaghomfnhdgp" class="btn-primary">Add to Chrome — Free</a>
+          <a href="#features" class="btn-secondary">See how it works →</a>
+        </div>
+        <div class="platforms">
+          <span class="platforms-label">Works on</span>
+          <span class="platform-tag">Claude</span>
+          <span class="platform-tag">ChatGPT</span>
+          <span class="platform-tag">Gemini</span>
+          <span class="platform-tag">+ any site</span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div style="width:320px;background:#0F0F13;border-radius:16px;border:1px solid rgba(255,255,255,0.08);box-shadow:0 40px 80px rgba(26,26,46,0.25);overflow:hidden;font-family:'General Sans',system-ui,sans-serif;font-size:12px;">
+
+          <div style="padding:12px 14px 10px;border-bottom:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:space-between;">
+            <div style="display:flex;align-items:baseline;gap:3px;">
+              <span style="font-size:10px;font-weight:700;color:#8B7CF5;font-style:italic;letter-spacing:0.06em;">p.s.</span>
+              <span style="font-size:16px;font-weight:800;color:#F5F0E8;letter-spacing:-0.02em;">Noted</span>
+            </div>
+            <span style="font-size:14px;color:rgba(255,255,255,0.3);">✕</span>
+          </div>
+
+          <div style="display:flex;padding:6px 12px 0;gap:2px;border-bottom:1px solid rgba(255,255,255,0.07);">
+            <span style="font-size:11px;font-weight:600;color:#F5F0E8;padding:5px 10px;border-radius:6px;background:rgba(107,92,231,0.2);">Shelf</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.3);padding:5px 10px;">Prompts</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.3);padding:5px 10px;">Profiles</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.3);padding:5px 10px;">Boxes</span>
+            <span style="font-size:11px;color:rgba(255,255,255,0.3);padding:5px 10px;margin-left:auto;">⚙</span>
+          </div>
+
+          <div style="padding:8px 12px 0;">
+            <div style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:7px;padding:6px 10px;color:rgba(255,255,255,0.2);font-size:11px;">Search saves...</div>
+          </div>
+
+          <div style="display:flex;gap:5px;padding:7px 12px;align-items:center;">
+            <span style="background:#6B5CE7;color:#fff;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;">All</span>
+            <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-size:12px;padding:2px 8px;border-radius:20px;">⭐</span>
+            <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-size:10px;padding:3px 9px;border-radius:20px;">Profiles ▾</span>
+            <span style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);font-size:10px;padding:3px 9px;border-radius:20px;">Boxes ▾</span>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:7px;padding:0 12px 12px;">
+
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:9px;overflow:hidden;display:flex;">
+              <div style="width:3px;background:#E76F51;flex-shrink:0;"></div>
+              <div style="padding:8px 10px;flex:1;min-width:0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;background:rgba(107,92,231,0.2);color:#A99BF8;">✦ Highlight</span>
+                  <span style="font-size:10px;color:#E76F51;font-weight:500;">✍️ Content</span>
+                </div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">CLAUDE</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.65);line-height:1.45;margin-bottom:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">The most compelling copy doesn't sell features — it sells the moment after the problem is solved.</div>
+                <div style="display:flex;gap:4px;margin-bottom:5px;">
+                  <span style="font-size:9px;background:rgba(107,92,231,0.1);border:1px solid rgba(107,92,231,0.2);color:#A99BF8;padding:1px 6px;border-radius:20px;">copywriting</span>
+                  <span style="font-size:9px;border:1px dashed rgba(255,255,255,0.15);color:rgba(255,255,255,0.25);padding:1px 5px;border-radius:20px;">+ tag</span>
+                </div>
+                <div style="display:flex;gap:4px;">
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">★</span>
+                  <span style="background:rgba(42,157,143,0.12);border:1px solid rgba(42,157,143,0.3);color:#4BC8B8;font-size:9px;padding:2px 5px;border-radius:4px;">Insert</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Move</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Copy</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">✕</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:9px;overflow:hidden;display:flex;">
+              <div style="width:3px;background:#2A9D8F;flex-shrink:0;"></div>
+              <div style="padding:8px 10px;flex:1;min-width:0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;background:rgba(42,157,143,0.15);color:#4BC8B8;">⌨ Prompt</span>
+                  <span style="font-size:10px;color:#2A9D8F;font-weight:500;">⚙️ Dev</span>
+                </div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.25);font-weight:600;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">Code Review</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.65);line-height:1.45;margin-bottom:5px;">Review this code for bugs, performance issues, and suggest improvements.</div>
+                <div style="display:flex;gap:4px;margin-bottom:5px;">
+                  <span style="font-size:9px;background:rgba(107,92,231,0.1);border:1px solid rgba(107,92,231,0.2);color:#A99BF8;padding:1px 6px;border-radius:20px;">code</span>
+                  <span style="font-size:9px;background:rgba(107,92,231,0.1);border:1px solid rgba(107,92,231,0.2);color:#A99BF8;padding:1px 6px;border-radius:20px;">review</span>
+                </div>
+                <div style="display:flex;gap:4px;">
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">★</span>
+                  <span style="background:rgba(42,157,143,0.12);border:1px solid rgba(42,157,143,0.3);color:#4BC8B8;font-size:9px;padding:2px 5px;border-radius:4px;">Insert</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Move</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Copy</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">✕</span>
+                </div>
+              </div>
+            </div>
+
+            <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:9px;overflow:hidden;display:flex;">
+              <div style="width:3px;background:#6B5CE7;flex-shrink:0;"></div>
+              <div style="padding:8px 10px;flex:1;min-width:0;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+                  <span style="font-size:9px;font-weight:700;padding:1px 6px;border-radius:20px;background:rgba(107,92,231,0.2);color:#A99BF8;">✦ Highlight</span>
+                  <span style="font-size:10px;color:#8B7CF5;font-weight:500;">🔮 Research</span>
+                </div>
+                <div style="font-size:9px;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:3px;">CHATGPT</div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.65);line-height:1.45;margin-bottom:5px;">Emergent behavior in LLMs arises from interaction between training data and model capacity.</div>
+                <div style="display:flex;gap:4px;">
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">★</span>
+                  <span style="background:rgba(42,157,143,0.12);border:1px solid rgba(42,157,143,0.3);color:#4BC8B8;font-size:9px;padding:2px 5px;border-radius:4px;">Insert</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Move</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">Copy</span>
+                  <span style="border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.3);font-size:9px;padding:2px 5px;border-radius:4px;">✕</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VIDEO -->
+  <section style="padding:80px 6vw;background:var(--cream2);">
+    <div style="max-width:860px;margin:0 auto;text-align:center;">
+      <div class="section-label">See it in action</div>
+      <h2 class="section-title" style="margin-bottom:32px;">Watch how it works.</h2>
+      <div style="position:relative;padding-bottom:56.25%;height:0;border-radius:16px;overflow:hidden;box-shadow:0 20px 60px rgba(26,26,46,0.15);border:1.5px solid var(--faint);">
+        <iframe
+          src="https://www.youtube.com/embed/3KnREgwNiO8"
+          title="P.S. Noted — See how it works"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          style="position:absolute;top:0;left:0;width:100%;height:100%;">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features" id="features">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-label">Features</div>
+        <h2 class="section-title">Both sides of the conversation.</h2>
+        <p class="section-sub">Every other tool only saves what you type in. P.S. Noted captures what comes back too.</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">✦</div>
+          <div class="feature-title">Highlight anything</div>
+          <div class="feature-desc">Select any text on an AI page and save it to your shelf instantly. The response that just changed how you think — kept forever.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⌨</div>
+          <div class="feature-title">Save your best prompts</div>
+          <div class="feature-desc">Stop retyping what works. Save once, label it, inject it back into any AI in one click.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Keyword triggers</div>
+          <div class="feature-desc">Type <code>-blog</code> in any AI text box and it auto-expands to your full saved prompt. Zero retyping, ever.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📁</div>
+          <div class="feature-title">Color-coded profiles</div>
+          <div class="feature-desc">Organize saves into color-coded profiles like "Content," "Dev," or "Research." Filter your shelf instantly.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📦</div>
+          <div class="feature-title">Boxes</div>
+          <div class="feature-desc">Group saves and profiles into a Box. Build a kit for any project or client — your way.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔄</div>
+          <div class="feature-title">Syncs everywhere</div>
+          <div class="feature-desc">Everything syncs privately across your Chrome devices. No account. No servers. No tracking.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARE -->
+  <section class="compare" id="compare">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-label">Compare</div>
+        <h2 class="section-title">How we stack up.</h2>
+      </div>
+      <div class="compare-wrap">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th class="ours">P.S. Noted</th>
+              <th>FlashPrompt</th>
+              <th>AIPRM</th>
+              <th>PromptBox</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Highlight AI responses</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+            <tr><td>Color-coded profiles</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+            <tr><td>Boxes / collections</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+            <tr><td>Keyword triggers</td><td class="ours"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Works on Gemini</td><td class="ours"><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Auto sync, no account</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+            <tr><td>Share profiles & boxes</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td><td><span class="no">—</span></td></tr>
+            <tr><td>Export CSV / JSON / Excel</td><td class="ours"><span class="yes">✓</span></td><td><span class="no">—</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Price</td><td class="ours" style="color:#A99BF8;font-weight:600">$15 one-time</td><td style="color:rgba(245,240,232,0.4)">$10.99</td><td style="color:rgba(245,240,232,0.4)">$10–$999/mo</td><td style="color:rgba(245,240,232,0.4)">$19</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="testimonials">
+    <div class="section-inner">
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">Finally something that captures both the prompt AND the answer. Game changer for my research workflow.</p>
+          <div><div class="testi-name">Maya R.</div><div class="testi-role">UX Researcher</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">The keyword trigger alone saves me 20 minutes a day. All my content prompts on a shortcut now.</p>
+          <div><div class="testi-name">Jordan K.</div><div class="testi-role">Content Strategist</div></div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-quote">"</div>
+          <p class="testi-text">The profiles make it feel like a real system, not just a dump of saved text. Finally organized.</p>
+          <div><div class="testi-name">Dani M.</div><div class="testi-role">Solo Founder</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing" id="pricing">
+    <div class="section-inner">
+      <div class="section-head">
+        <div class="section-label">Pricing</div>
+        <h2 class="section-title">Pay once, own it forever.</h2>
+        <p class="section-sub">No subscriptions. No monthly guilt. Just P.S. Noted working for you.</p>
+      </div>
+      <div class="pricing-grid">
+        <div class="price-card">
+          <div class="price-tier">Free</div>
+          <div class="price-amount">$0</div>
+          <div class="price-note">Always free</div>
+          <ul class="price-features">
+            <li>25 saves</li>
+            <li>3 profiles</li>
+            <li>5 keyword triggers</li>
+            <li>1 box</li>
+            <li>1 device</li>
+            <li>CSV, Excel & JSON export</li>
+            <li class="dim">Unlimited saves</li>
+            <li class="dim">Unlimited boxes</li>
+            <li class="dim">3 devices</li>
+          </ul>
+          <a href="https://chromewebstore.google.com/detail/ps-noted-%E2%80%94-prompt-shelf/cgmpnmcakdibdaliiflgjaghomfnhdgp" class="price-btn">Add to Chrome</a>
+        </div>
+        <div class="price-card featured">
+          <div class="popular-badge">POPULAR</div>
+          <div class="price-tier">Pro ✦</div>
+          <div class="price-amount">$15</div>
+          <div class="price-note">One-time · lifetime access</div>
+          <ul class="price-features">
+            <li>Unlimited saves</li>
+            <li>Unlimited profiles</li>
+            <li>Unlimited triggers</li>
+            <li>Unlimited boxes</li>
+            <li>3 devices</li>
+            <li>CSV, Excel & JSON export</li>
+            <li>Share profiles & boxes</li>
+            <li>All future features</li>
+          </ul>
+          <a href="https://buy.stripe.com/dRmbJ09sb26I3xVfKq1sQ00" class="price-btn primary">Get Pro — $15</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BOTTOM -->
+  <section class="cta-bottom">
+    <h2>Stop losing<br><em>the good stuff.</em></h2>
+    <p>The insight, the prompt, the response that changed how you think — it's worth keeping.</p>
+    <a href="https://chromewebstore.google.com/detail/ps-noted-%E2%80%94-prompt-shelf/cgmpnmcakdibdaliiflgjaghomfnhdgp" class="btn-light">Add to Chrome — Free</a>
+    <p class="fine">No account · No servers · No tracking</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="logo footer-logo">
+        <span class="logo-ps">P.S.</span>
+        <span class="logo-noted">Noted</span>
+      </div>
+      <span class="footer-tagline">Save the good stuff.</span>
+      <div class="footer-links">
+        <a href="support.html">Support</a>
+        <a href="faq.html">FAQ</a>
+        <a href="refund.html">Refunds</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="mailto:hello@psnoted.com">Contact</a>
+      </div>
+      <span class="footer-copy">© 2026 P.S. Noted</span>
+    </div>
+  </footer>
+
+  <script>
+    window.addEventListener('scroll', () => {
+      document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+    });
+  </script>
+</body>
+</html>
